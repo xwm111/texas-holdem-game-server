@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>
+        texas-holdem-calculator
+    </title>
+    <link rel="stylesheet" type="text/css" href="/css/aui.css"/>
+    <style type="text/css">
+        .player {
+            border: 1px solid;
+            display: inline-block;
+        }
+
+        .card {
+            height: 105px;
+            float: left;
+        }
+
+        .winner {
+            float: right;
+            font-size: 40px;
+            color: red;
+        }
+    </style>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+</head>
+<body>
+<div id="game">
+    <template>
+        <div class="aui-content aui-margin-b-15" v-if="status=='gamesetting'">
+            <ul class="aui-list aui-form-list">
+                <li class="aui-list-header">请输入玩家数量</li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-label">
+                            玩家：
+                        </div>
+                        <div class="aui-list-item-input">
+                            <input v-model="players" placeholder="默认2人"/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <p>
+            <div class="aui-btn aui-btn-info aui-btn-block" v-on:click="gamesetting">开始</div>
+            </p>
+        </div>
+        <div class="aui-content aui-margin-b-15" v-if="status=='playground'">
+            <div>玩家手牌</div>
+            <ul class="aui-list">
+                <li class="aui-list-item" v-for="(item,key) in usershands">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title">玩家:{{key}}
+                            <div class="card" v-for="obj in item">
+                                <img width="60px" height="105px"
+                                     :src="'/img/'+obj.number+obj.flower.substring(0,1)+'.png'"/>
+                            </div>
+                            <div class="winner" v-if="closure(key)">win1</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--<div class="player" v-for="(item,key) in usershands">-->
+            <!--<div>玩家:{{key}}</div>-->
+            <!--<div class="card" v-for="obj in item">-->
+            <!--<img width="100px" height="175px" :src="'/img/'+obj.number+obj.flower.substring(0,1)+'.png'"/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <p/>
+            <p/>
+            <div>公共牌</div>
+            <ul class="aui-list">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title">
+                            <div class="card" v-for="card in public">
+                                <img width="60px" height="105px"
+                                     :src="'/img/'+card.number+card.flower.substring(0,1)+'.png'"/>
+                            </div>
+                            <div class="card" v-if="public.length===0">
+                                <img width="60px" height="105px" src="/img/back.png"/>
+                            </div>
+                            <div class="card" v-if="public.length===0">
+                                <img width="60px" height="105px" src="/img/back.png"/>
+                            </div>
+                            <div class="card" v-if="public.length===0">
+                                <img width="60px" height="105px" src="/img/back.png"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--<div class="player">-->
+            <!--<div class="card" v-for="card in public">-->
+            <!--<img width="100px" height="175px" :src="'/img/'+card.number+card.flower.substring(0,1)+'.png'"/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <p/>
+            <div class="aui-btn aui-btn-info aui-btn-block" v-on:click="goflop" v-if="roundstatus=='preflop'">flop</div>
+            <p/>
+            <div class="aui-btn aui-btn-info aui-btn-block" v-on:click="goturn" v-if="roundstatus=='flop'">turn</div>
+            <p/>
+            <div class="aui-btn aui-btn-info aui-btn-block" v-on:click="goriver" v-if="roundstatus=='turn'">river</div>
+            <p/>
+            <div class="aui-btn aui-btn-info aui-btn-block " v-on:click="result" v-if="roundstatus=='river'">结果</div>
+            <div class="aui-btn aui-btn-danger aui-btn-block " v-on:click="retry" v-if="roundstatus=='result'">重来</div>
+        </div>
+        <div class="result" v-if="status=='result'">result</div>
+    </template>
+</div>
+</body>
+<script>
+    let game = new Vue({
+        el: '#game',
+        data: {
+            status: 'gamesetting',
+            roundstatus: 'preflop',
+            usershands: {},
+            public: [],
+            players: '2',
+            winner: "",
+            running: false,
+        },
+        computed: {
+            // 计算属性的 getter
+            closure() {
+                let _this = this;
+                return function (key) {
+                    if (_this.winner.indexOf(",") != -1) {
+                        let arr = _this.winner.split(",");
+                        for (let i = 0; i < arr.length; i++) {
+                            if (key === arr[i]) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    } else {
+                        return key === _this.winner;
+                    }
+                }
+            }
+        },
+        mounted: function () {
+        },
+        methods: {
+            gamesetting: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.status = 'playground'
+                let url = '/api/gamestart?persons=' + _this.players
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.usershands = res.data;
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            },
+            goflop: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.roundstatus = 'flop'
+                let url = '/api/flop';
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.public = res.data;
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            },
+            goturn: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.roundstatus = 'turn'
+                let url = '/api/turn';
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.public = res.data;
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            },
+            goriver: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.roundstatus = 'river'
+                let url = '/api/river';
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.public = res.data;
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            },
+            result: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.roundstatus = 'result'
+                let url = '/api/result';
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.winner = res.data + "";
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            },
+            retry: function () {
+                let _this = this;
+                if(_this.running){
+                    return;
+                }
+                _this.running = true;
+                _this.roundstatus = 'preflop';
+                _this.public = [];
+                _this.winner = '';
+                _this.usershands = {};
+                let url = '/api/gamestart?persons=' + _this.players
+                axios.get(url, {}).then(function (res) {
+                    _this.running = false;
+                    _this.usershands = res.data;
+                }).catch(function (res) {
+                    _this.running = false;
+                });
+            }
+        },
+        created: function () {
+
+        }
+    })
+</script>
+</html>
