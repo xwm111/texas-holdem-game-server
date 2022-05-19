@@ -11,7 +11,8 @@ public class Rule {
     private static final int TYPE_ROYAL_FLUSH = 10;
     private static final int TYPE_STRAIGHT_FLUSH = 9;
     private static final int TYPE_FOUR_OF_A_KIND = 8;
-    private static final int TYPE_FULLHOUSE = 7;
+
+    private static final int TYPE_FULL_HOUSE = 7;
     private static final int TYPE_FLUSH = 6;
     private static final int TYPE_STRAIGHT = 5;
     private static final int TYPE_THREE_OF_A_KIND = 4;
@@ -59,7 +60,7 @@ public class Rule {
                     return COMPARE_TYPE_STRAIGHT_FLUSH(first, second);
                 case TYPE_FOUR_OF_A_KIND:
                     return COMPARE_TYPE_TYPE_FOUR_OF_A_KIND(first, second);
-                case TYPE_FULLHOUSE:
+                case TYPE_FULL_HOUSE:
                     return COMPARE_TYPE_FULLHOUSE(first, second);
                 case TYPE_FLUSH:
                     return COMPARE_TYPE_FLUSH(first, second);
@@ -538,7 +539,7 @@ public class Rule {
         } else if (isFourOfaKind(five)) {
             return TYPE_FOUR_OF_A_KIND;
         } else if (isFullhouse(five)) {
-            return TYPE_FULLHOUSE;
+            return TYPE_FULL_HOUSE;
         } else if (isFlush(five)) {
             return TYPE_FLUSH;
         } else if (isStraight(five)) {

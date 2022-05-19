@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Card implements Comparable<Card> {
+
     private Integer number;
     private Flower flower;//黑桃:Spade橄榄叶.红桃:Heart.梅花:Club.方块:Diamond.
 
