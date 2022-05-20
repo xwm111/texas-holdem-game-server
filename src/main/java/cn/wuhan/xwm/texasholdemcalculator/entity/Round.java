@@ -8,20 +8,36 @@ import java.util.*;
  * @author Wei Ming Xu  QQ:1274263 Just For Fun
  **/
 public class Round {
-    private List<Card> poker = new ArrayList<>(52);
 
-    // 洗牌后 剩余的牌，除去玩家手排
-    private List<Card> remain = new ArrayList<>();
+    /**
+     * 0 洗牌状态
+     * 1 preflop
+     * 2 flop
+     * 3 turn
+     * 4 river
+     * 5 result
+     */
+    private int currentStep = 0;
+
+    public int getCurrentStep() {
+        return currentStep;
+    }
+
+    private final List<Card> poker = new ArrayList<>(52);
+
+    // 洗牌后 剩余的牌，除去玩家手牌
+    private final List<Card> remain = new ArrayList<>();
+
     // 洗牌后 flop
-    private List<Card> flop = new ArrayList<>();
+    private final List<Card> flop = new ArrayList<>();
 
-    private Card cut1;
-    private Card cut2;
-    private Card cut3;
+    private Card cut1; //第1张切牌
+    private Card cut2; //第2张切牌
+    private Card cut3; //第3张切牌
 
-    private List<Card> turn = new ArrayList<>();
+    private final List<Card> turn = new ArrayList<>();
 
-    private List<Card> river = new ArrayList<>();
+    private final List<Card> river = new ArrayList<>();
 
     public List<Card> getTurn() {
         return turn;
@@ -32,8 +48,8 @@ public class Round {
     }
 
 
-    public Map<String, List<Card>> getPlayerhands() {
-        return playerhands;
+    public Map<String, List<Card>> getPlayerHands() {
+        return playerHands;
     }
 
 
@@ -55,16 +71,16 @@ public class Round {
     }
 
     // 玩家手排
-    private Map<String, List<Card>> playerhands = new HashMap<>();
+    private final Map<String, List<Card>> playerHands = new HashMap<>();
 
-    private int players = 2;
+    private int playersCount = 2;
 
-    public void setPlayers(int players) {
-        this.players = players;
+    public void setplayersCount(int playersCount) {
+        this.playersCount = playersCount;
     }
 
     public Round() {
-        Card card = null;
+        Card card;
         for (int i = 2; i < 15; i++) {
             for (int j = 1; j < 5; j++) {
                 if (j == 1) {
@@ -89,75 +105,104 @@ public class Round {
     }
 
     public Map<String, List<Card>> preflop() {
-        Integer numberOfCards = players * 2 + 1 + 3 + 1 + 1 + 1 + 1;
-        for (int i = 0; i < numberOfCards; i++) {
-            remain.add(poker.get(i));
+        if(currentStep == 0) {
+            currentStep = 1;
+            int numberOfCards = playersCount * 2 + 1 + 3 + 1 + 1 + 1 + 1;
+            for (int i = 0; i < numberOfCards; i++) {
+                remain.add(poker.get(i));
+            }
+
+            for (int i = 0; i < playersCount; i++) {
+                ArrayList<Card> hand = new ArrayList<>();
+                hand.add(remain.get(i));
+                hand.add(remain.get(i + playersCount));
+                playerHands.put(i + 1 + "", hand);
+            }
+
+            playerHands.forEach((k, v) ->
+                    remain.removeAll(v)
+            );
         }
-
-        for (int i = 0; i < players; i++) {
-            ArrayList<Card> hand = new ArrayList<>();
-            hand.add(remain.get(i));
-            hand.add(remain.get(i + players));
-            playerhands.put(i + 1 + "", hand);
-        }
-
-        playerhands.forEach((k, v) ->
-                remain.removeAll(v)
-        );
-
-        return playerhands;
+        return playerHands;
     }
 
     public List<Card> flop() {
-        List<Card> flop = new ArrayList<>();
-        cut1 = remain.get(0);
-        remain.remove(0);
-        flop.add(remain.get(0));
-        remain.remove(0);
-        flop.add(remain.get(0));
-        remain.remove(0);
-        flop.add(remain.get(0));
-        remain.remove(0);
-        this.flop = flop;
+        if(currentStep==1) {
+            currentStep = 2;
+            cut1 = remain.get(0);
+            remain.remove(0);
+            flop.add(remain.get(0));
+            remain.remove(0);
+            flop.add(remain.get(0));
+            remain.remove(0);
+            flop.add(remain.get(0));
+            remain.remove(0);
+        }
         return flop;
     }
 
     public List<Card> turn() {
-        List<Card> turn = new ArrayList<>();
-        turn.addAll(flop);
-        cut2 = remain.get(0);
-        remain.remove(0);
-        turn.add(remain.get(0));
-        remain.remove(0);
-        this.turn = turn;
+        if(currentStep==2) {
+            currentStep = 3;
+            turn.addAll(flop);
+            cut2 = remain.get(0);
+            remain.remove(0);
+            turn.add(remain.get(0));
+            remain.remove(0);
+        }
         return turn;
     }
 
     public List<Card> river() {
-        List<Card> river = new ArrayList<>();
-        river.addAll(turn);
-        cut3 = remain.get(0);
-        remain.remove(0);
-        river.add(remain.get(0));
-        remain.remove(0);
-        this.river = river;
+        if(currentStep==3) {
+            currentStep = 4;
+            river.addAll(turn);
+            cut3 = remain.get(0);
+            remain.remove(0);
+            river.add(remain.get(0));
+            remain.remove(0);
+        }
         return river;
     }
 
     public String getWinner() {
-        Rule rule = new Rule();
         String winner = "1";
-        Map<String, List<Card>> allplayercards = new HashMap<>();
-        for (Map.Entry<String, List<Card>> entry : playerhands.entrySet()) {
-            entry.getValue();
-            ArrayList<Card> all = new ArrayList<>();
-            all.addAll(entry.getValue());
-            all.addAll(river);
-            Card[] cardarr = all.toArray(new Card[all.size()]);
-            //7张牌 组合成5张
-            combinationSelectArrayList(cardarr, 0, new Card[5], 0);
-            //排序比较
-            Collections.sort(objlist, new Comparator<List<Card>>() {
+        if(currentStep==4) {
+            currentStep = 5;
+            Rule rule = new Rule();
+            Map<String, List<Card>> allplayercards = new HashMap<>();
+            for (Map.Entry<String, List<Card>> entry : playerHands.entrySet()) {
+                entry.getValue();
+                ArrayList<Card> all = new ArrayList<>();
+                all.addAll(entry.getValue());
+                all.addAll(river);
+                Card[] cardarr = all.toArray(new Card[all.size()]);
+                //7张牌 组合成5张
+                combinationSelectArrayList(cardarr, 0, new Card[5], 0);
+                //排序比较
+                Collections.sort(objlist, new Comparator<List<Card>>() {
+                    @Override
+                    public int compare(List<Card> o1, List<Card> o2) {
+                        String result = rule.compareTwo(o1, o2);
+                        if (result.equals(Rule.COMPARE_WIN)) {
+                            return -1;
+                        } else if (result.equals(Rule.COMPARE_EQUAL)) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+                //取玩家最大的一手牌
+                allplayercards.put(entry.getKey(), objlist.get(0));
+                objlist = new ArrayList<>();
+            }
+            List<List<Card>> finalcards = new ArrayList<>();
+            for (Map.Entry<String, List<Card>> entry : allplayercards.entrySet()) {
+                finalcards.add(entry.getValue());
+            }
+            //对每个玩家最大的牌进行比较
+            Collections.sort(finalcards, new Comparator<List<Card>>() {
                 @Override
                 public int compare(List<Card> o1, List<Card> o2) {
                     String result = rule.compareTwo(o1, o2);
@@ -170,34 +215,13 @@ public class Round {
                     }
                 }
             });
-            //取玩家最大的一手牌
-            allplayercards.put(entry.getKey(), objlist.get(0));
-            objlist = new ArrayList<>();
-        }
-        List<List<Card>> finalcards = new ArrayList<>();
-        for (Map.Entry<String, List<Card>> entry : allplayercards.entrySet()) {
-            finalcards.add(entry.getValue());
-        }
-        //对每个玩家最大的牌进行比较
-        Collections.sort(finalcards, new Comparator<List<Card>>() {
-            @Override
-            public int compare(List<Card> o1, List<Card> o2) {
-                String result = rule.compareTwo(o1, o2);
-                if (result.equals(Rule.COMPARE_WIN)) {
-                    return -1;
-                } else if (result.equals(Rule.COMPARE_EQUAL)) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
-        //最大的牌
-        List<Card> biggest = finalcards.get(0);
+            //最大的牌
+            List<Card> biggest = finalcards.get(0);
 
-        for (Map.Entry<String, List<Card>> entry : allplayercards.entrySet()) {
-            if (rule.compareTwo(entry.getValue(), biggest).equals(Rule.COMPARE_EQUAL)) {
-                winner = entry.getKey() + ",";
+            for (Map.Entry<String, List<Card>> entry : allplayercards.entrySet()) {
+                if (rule.compareTwo(entry.getValue(), biggest).equals(Rule.COMPARE_EQUAL)) {
+                    winner = entry.getKey() + ",";
+                }
             }
         }
         return winner.substring(0, winner.length() - 1);

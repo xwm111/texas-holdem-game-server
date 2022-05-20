@@ -4,17 +4,15 @@ import cn.wuhan.xwm.texasholdemcalculator.entity.Card;
 import cn.wuhan.xwm.texasholdemcalculator.entity.Flower;
 import cn.wuhan.xwm.texasholdemcalculator.entity.Round;
 import cn.wuhan.xwm.texasholdemcalculator.service.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@Log4j2
 public class TexasHoldemCalculatorApplicationTests {
 
     public static final String COMPARE_WIN = "WIN";
@@ -22,7 +20,7 @@ public class TexasHoldemCalculatorApplicationTests {
     public static final String COMPARE_EQUAL = "EQUAL";
     @Test
     public void contextLoads() {
-        System.out.println(Flower.SPADE.name().equals("SPADE"));
+        log.info(Flower.SPADE.name().equals("SPADE"));
     }
 
     /**
@@ -30,7 +28,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void Test_ROYAL_FLUSH(){
-        System.out.println("皇家同花顺测试");
+        log.info("皇家同花顺测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(14, Flower.HEART);
         list.add(card);
@@ -43,9 +41,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(10, Flower.HEART);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(14, Flower.HEART);
         list2.add(card);
@@ -58,10 +56,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(10, Flower.HEART);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_EQUAL,result);
     }
 
@@ -70,7 +68,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_STRAIGHT_FLUSH(){
-        System.out.println("同花顺测试");
+        log.info("同花顺测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -83,9 +81,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -98,10 +96,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(8, Flower.SPADE);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
 
@@ -118,9 +116,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(14, Flower.SPADE);
         list2.add(card);
@@ -133,9 +131,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(4, Flower.SPADE);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
@@ -145,7 +143,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_FOUR_OF_A_KIND(){
-        System.out.println("四条测试");
+        log.info("四条测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -158,9 +156,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -173,10 +171,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_EQUAL,result);
 
         list = new ArrayList<>();
@@ -191,9 +189,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -206,9 +204,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
 
@@ -224,9 +222,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(7, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -239,9 +237,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
@@ -250,7 +248,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_FULLHOUSE(){
-        System.out.println("葫芦测试");
+        log.info("葫芦测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -263,9 +261,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -278,10 +276,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
         list = new ArrayList<>();
@@ -296,9 +294,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -311,9 +309,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
         list = new ArrayList<>();
@@ -328,9 +326,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -343,9 +341,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_EQUAL,result);
 
 
@@ -361,9 +359,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -376,9 +374,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
@@ -387,7 +385,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_FLUSH(){
-        System.out.println("同花测试");
+        log.info("同花测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -400,9 +398,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(14, Flower.SPADE);
         list2.add(card);
@@ -415,10 +413,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
 
         list = new ArrayList<>();
@@ -433,9 +431,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(12, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -448,9 +446,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
@@ -459,7 +457,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_STRAIGHT(){
-        System.out.println("顺子测试");
+        log.info("顺子测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(14, Flower.SPADE);
         list.add(card);
@@ -472,9 +470,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(10, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -487,10 +485,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
         list = new ArrayList<>();
@@ -505,9 +503,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(5, Flower.SPADE);
         list2.add(card);
@@ -520,9 +518,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
     }
 
@@ -531,7 +529,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_THREE_OF_A_KIND(){
-        System.out.println("三条测试");
+        log.info("三条测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -544,9 +542,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -559,10 +557,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
 
         list = new ArrayList<>();
@@ -577,9 +575,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(4, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(4, Flower.SPADE);
         list2.add(card);
@@ -592,9 +590,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(3, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
@@ -605,7 +603,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_TWO_PAIRS(){
-        System.out.println("两对测试");
+        log.info("两对测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -618,9 +616,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(14, Flower.SPADE);
         list2.add(card);
@@ -633,10 +631,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(3, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
         list = new ArrayList<>();
@@ -651,9 +649,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(6, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(14, Flower.SPADE);
         list2.add(card);
@@ -666,9 +664,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(8, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
     }
 
@@ -678,7 +676,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_ONE_PAIR(){
-        System.out.println("对子测试");
+        log.info("对子测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -691,9 +689,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -706,10 +704,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
 
         list = new ArrayList<>();
@@ -724,9 +722,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(3, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -739,9 +737,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(4, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
     }
 
@@ -750,7 +748,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void TYPE_HIGH_CARD(){
-        System.out.println("HIGH牌测试");
+        log.info("HIGH牌测试");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -763,9 +761,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -778,10 +776,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_EQUAL,result);
 
         list = new ArrayList<>();
@@ -796,9 +794,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -811,9 +809,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_LOSE,result);
     }
     /**
@@ -821,7 +819,7 @@ public class TexasHoldemCalculatorApplicationTests {
      */
     @Test
     public void temp(){
-        System.out.println("测试模板");
+        log.info("测试模板");
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
@@ -834,9 +832,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.SPADE);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         ArrayList<Card> list2 = new ArrayList<>();
         card  = new Card(13, Flower.SPADE);
         list2.add(card);
@@ -849,10 +847,10 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(9, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         Rule rule = new Rule();
         String result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_EQUAL,result);
 
         list = new ArrayList<>();
@@ -867,9 +865,9 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         list.sort(Comparator.reverseOrder());
-        list.forEach((obj) -> System.out.print(obj.toString()));
+        list.forEach((obj) -> log.info(obj.toString()));
 
-        System.out.print("----");
+        log.info("----");
         list2 = new ArrayList<>();
         card  = new Card(12, Flower.SPADE);
         list2.add(card);
@@ -882,37 +880,44 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(5, Flower.DIAMOND);
         list2.add(card);
         list2.sort(Comparator.reverseOrder());
-        list2.forEach((obj) -> System.out.print(obj.toString()));
+        list2.forEach((obj) -> log.info(obj.toString()));
         result = rule.compareTwo(list,list2);
-        System.out.println("测试结果"+result);
+        log.info("测试结果"+result);
         assertEquals(COMPARE_WIN,result);
     }
 
     /**
-     * 测试发preflop
+     * 发牌测试
      */
     @Test
     public void testPlay(){
         Round round = new Round();
-        round.setPlayers(2);
+        round.setplayersCount(4);
         Map<String,List<Card>> map = round.preflop();
 
         map.forEach((k,v) ->{
-            System.out.println("hand:"+k);
-            v.forEach((obj) -> System.out.print(obj.toString()));
-            System.out.println("--preflop--");
+            log.info("hand:"+k);
+            v.forEach((obj) -> log.info(obj.toString()));
         });
         round.flop();
-        round.getFlop().forEach((obj) -> System.out.print(obj.toString()) );
-        System.out.println("--flop--");
+        log.info("--cut1--");
+        log.info(round.getCut1().toString());
+        log.info("--flop--");
+        round.getFlop().forEach((obj) -> log.info(obj.toString()) );
 
         round.turn();
-        round.getTurn().forEach((obj) -> System.out.print(obj.toString()) );
-        System.out.println("--turn--");
+        log.info("--cut2--");
+        log.info(round.getCut2().toString());
+        log.info("--turn--");
+        round.getTurn().forEach((obj) -> log.info(obj.toString()) );
+
 
         round.river();
-        round.getRiver().forEach((obj) -> System.out.print(obj.toString()) );
-        System.out.println("--river--");
+        log.info("--cut3--");
+        log.info(round.getCut3().toString());
+        log.info("--river--");
+        round.getRiver().forEach((obj) -> log.info(obj.toString()) );
+
     }
 
     @Test
@@ -920,12 +925,12 @@ public class TexasHoldemCalculatorApplicationTests {
         String[] dataList ={"aaa","bbbb","cccc","ddd","eeee","fffff","ggggg"};
         int n =5;
         Round round = new Round();
-        round.setPlayers(2);
+        round.setplayersCount(2);
         round.preflop();
         round.flop();
         round.turn();
         round.river();
-        Map<String, List<Card>> map = round.getPlayerhands();
+        Map<String, List<Card>> map = round.getPlayerHands();
         List<Card> p1 = map.get("1");
         List<Card> river = round.getRiver();
         ArrayList<Card> all = new ArrayList<Card>();
@@ -934,7 +939,7 @@ public class TexasHoldemCalculatorApplicationTests {
         Card[] cardarr = (Card[]) all.toArray(new Card[all.size()]);
 //        combinationSelect(dataList, 0, new String[n], 0);
         combinationSelectArrayList(cardarr,0,new Card[5],0);
-        System.out.println(objlist.size());
+        log.info(objlist.size());
 
         Collections.sort(objlist,new Comparator<List<Card>>(){
 
@@ -952,7 +957,7 @@ public class TexasHoldemCalculatorApplicationTests {
             }
         });
         for(List<Card> cards : objlist){
-            System.out.println(cards);
+            log.info(cards);
         }
     }
 
@@ -969,7 +974,7 @@ public class TexasHoldemCalculatorApplicationTests {
         int resultLen = resultList.length;
         int resultCount = resultIndex + 1;
         if (resultCount > resultLen) { // 全部选择完时，输出组合结果
-            System.out.println(Arrays.asList(resultList));
+            log.info(Arrays.asList(resultList));
             return;
         }
 
@@ -984,7 +989,7 @@ public class TexasHoldemCalculatorApplicationTests {
         int resultLen = resultList.length;
         int resultCount = resultIndex + 1;
         if (resultCount > resultLen) { // 全部选择完时，输出组合结果
-            System.out.println(Arrays.asList(resultList));
+            log.info(Arrays.asList(resultList));
             List<Card> cards = new ArrayList<>();
             for(Card c :Arrays.asList(resultList)){
                 Card n = new Card(c.getNumber(),c.getFlower());
@@ -1019,6 +1024,6 @@ public class TexasHoldemCalculatorApplicationTests {
         card  = new Card(2, Flower.SPADE);
         list.add(card);
         Rule rule = new Rule();
-        System.out.println(Arrays.asList(rule.findBiggestHandFromSevenCards(list)));
+        log.info(Arrays.asList(rule.findBiggestHandFromSevenCards(list)));
     }
 }

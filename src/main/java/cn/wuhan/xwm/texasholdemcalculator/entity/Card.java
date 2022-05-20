@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Card implements Comparable<Card> {
 
     private Integer number;
-    private Flower flower;//黑桃:Spade橄榄叶.红桃:Heart.梅花:Club.方块:Diamond.
+    private Flower flower;//♠️:Spade  ♥️:Heart  ♣️:Club  ♦️:Diamond.
 
     @Override
     public int compareTo(Card o) {
@@ -45,18 +45,18 @@ public class Card implements Comparable<Card> {
             temp = String.valueOf(this.getNumber());
         }
         char[] cs = new char[4];
-        cs[0]   =   0x2660;
-        cs[1]   =   0x2665;
-        cs[2]   =   0x2663;
-        cs[3]   =   0x2666;
+        cs[0]   =   0x2660; //♠️的ascii码
+        cs[1]   =   0x2665; //♥️的ascii码
+        cs[2]   =   0x2663; //♣️的ascii码
+        cs[3]   =   0x2666; //♦️的ascii码
         if(this.getFlower()==Flower.SPADE){
-            temp+=cs[0];
+            temp+="♠️";
         }else if(this.getFlower()==Flower.HEART){
-            temp+=cs[1];
+            temp+="♥️";
         }else if(this.getFlower()==Flower.CLUB){
-            temp+=cs[2];
+            temp+="♣️️";
         }else if(this.getFlower()==Flower.DIAMOND){
-            temp+=cs[3];
+            temp+="♦️";
         }
         return temp;
     }

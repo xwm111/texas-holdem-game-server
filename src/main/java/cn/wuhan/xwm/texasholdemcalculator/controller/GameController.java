@@ -23,13 +23,13 @@ public class GameController {
     @GetMapping("/gamestart")
     public Map<String, List<Card>> start(@RequestParam String persons) {
         round = new Round();
-        round.setPlayers(Integer.valueOf(persons));
+        round.setplayersCount(Integer.valueOf(persons));
         return round.preflop();
     }
 
     @GetMapping("/preflop")
     public Map<String, List<Card>> preflop() {
-        return round.getPlayerhands();
+        return round.getPlayerHands();
     }
 
     @GetMapping("/flop")
@@ -50,5 +50,10 @@ public class GameController {
     @GetMapping("/result")
     public String result() {
         return round.getWinner();
+    }
+
+    @GetMapping("/currentround")
+    public Round currentround() {
+        return round;
     }
 }
