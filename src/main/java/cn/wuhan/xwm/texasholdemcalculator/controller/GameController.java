@@ -21,8 +21,12 @@ public class GameController {
     private Round round;
 
     @GetMapping("/gamestart")
-    public Map<String, List<Card>> start(@RequestParam String persons) {
+    public Map<String, List<Card>> start(@RequestParam String persons) throws Exception{
         round = new Round();
+        int playerCount = Integer.valueOf(persons);
+        if(playerCount>9){
+            throw new Exception("玩家数量最多只允许9人");
+        }
         round.setplayersCount(Integer.valueOf(persons));
         return round.preflop();
     }
