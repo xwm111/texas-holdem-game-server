@@ -20,19 +20,19 @@ import java.util.Map;
 public class GameController {
     private Round round;
 
-    @GetMapping("/gamestart")
+    @GetMapping("/game_start")
     public Map<String, List<Card>> start(@RequestParam String persons) throws Exception{
         round = new Round();
-        int playerCount = Integer.valueOf(persons);
+        int playerCount = Integer.parseInt(persons);
         if(playerCount>9){
             throw new Exception("玩家数量最多只允许9人");
         }
-        round.setplayersCount(Integer.valueOf(persons));
+        round.setplayersCount(Integer.parseInt(persons));
         return round.preflop();
     }
 
-    @GetMapping("/preflop")
-    public Map<String, List<Card>> preflop() {
+    @GetMapping("/pre_flop")
+    public Map<String, List<Card>> preFlop() {
         return round.getPlayerHands();
     }
 
@@ -56,8 +56,8 @@ public class GameController {
         return round.getWinner();
     }
 
-    @GetMapping("/currentround")
-    public Round currentround() {
+    @GetMapping("/round_info")
+    public Round roundInfo() {
         return round;
     }
 }
