@@ -26,7 +26,7 @@ public class Rule {
 
     /**
      * 比较两手牌的大小
-     * 比较之前先将5张牌按照点数大小排序
+     * 前提: 比较之前已经将5张牌按照点数大小排序
      *
      * @param first
      * @param second
@@ -81,7 +81,8 @@ public class Rule {
     }
 
     /**
-     * Hight 牌 比较
+     * 比较两手牌的大小
+     * High 牌 比较
      * @param first
      * @param second
      * @return
@@ -111,6 +112,7 @@ public class Rule {
     }
 
     /**
+     * 比较两手牌的大小
      * 一对比较
      *
      * @param first
@@ -200,6 +202,7 @@ public class Rule {
     }
 
     /**
+     * 比较两手牌的大小
      * 两对比较
      *
      * @param first
@@ -325,6 +328,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 取三条的高张
+     * @param five
+     * @return
+     */
     private int findSingleBiggerFromThreeOfAKind(List<Card> five) {
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
         int minus2 = five.get(1).getNumber() - five.get(2).getNumber();
@@ -335,6 +343,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 取三条的低张
+     * @param five
+     * @return
+     */
     private int findSingleSmallerFromThreeOfAKind(List<Card> five) {
         int minus3 = five.get(2).getNumber() - five.get(3).getNumber();
         int minus4 = five.get(3).getNumber() - five.get(4).getNumber();
@@ -345,6 +358,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 取三条中 三条的点数
+     * @param five
+     * @return
+     */
     private int findThreeFromThreeOfAKind(List<Card> five) {
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
         int minus2 = five.get(1).getNumber() - five.get(2).getNumber();
@@ -439,6 +457,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 找出葫芦中的对子点数
+     * @param five
+     * @return
+     */
     private int findTwoFromFullhouse(List<Card> five) {
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
         int minus2 = five.get(1).getNumber() - five.get(2).getNumber();
@@ -449,6 +472,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 找出葫芦中的三条点数
+     * @param five
+     * @return
+     */
     private int findThreeFromFullhouse(List<Card> five) {
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
         int minus2 = five.get(1).getNumber() - five.get(2).getNumber();
@@ -488,6 +516,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 找出四条中单张的点数
+     * @param five
+     * @return
+     */
     private int findOneFromFourOfAKind(List<Card> five) {
         if ((five.get(0).getNumber() - five.get(1).getNumber()) == 0) {
             return five.get(0).getNumber();
@@ -496,6 +529,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 找出四条中四条的点数
+     * @param five
+     * @return
+     */
     private int findFourFromFourOfAKind(List<Card> five) {
         if ((five.get(0).getNumber() - five.get(1).getNumber()) == 0) {
             return five.get(4).getNumber();
@@ -555,6 +593,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是一对
+     * @param five
+     * @return
+     */
     private boolean isOnePairs(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -574,6 +617,12 @@ public class Rule {
         }
     }
 
+
+    /**
+     * 判断是否是两对
+     * @param five
+     * @return
+     */
     private boolean isTwoPairs(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -591,6 +640,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是三条
+     * @param five
+     * @return
+     */
     private boolean isThreeOfaKind(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -608,6 +662,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是顺子
+     * @param five
+     * @return
+     */
     private boolean isStraight(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -623,6 +682,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是同花
+     * @param five
+     * @return
+     */
     private boolean isFlush(List<Card> five) {
         if (five.get(0).getFlower() == five.get(1).getFlower()
                 && five.get(2).getFlower() == five.get(3).getFlower()
@@ -634,6 +698,12 @@ public class Rule {
         }
     }
 
+
+    /**
+     * 判断是否是葫芦
+     * @param five
+     * @return
+     */
     private boolean isFullhouse(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -649,6 +719,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是四条
+     * @param five
+     * @return
+     */
     private boolean isFourOfaKind(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         int minus1 = five.get(0).getNumber() - five.get(1).getNumber();
@@ -664,6 +739,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是同花顺
+     * @param five
+     * @return
+     */
     private boolean isStraightFlush(List<Card> five) {
         if (isStraight(five) && isFlush(five)) {
             return true;
@@ -672,6 +752,11 @@ public class Rule {
         }
     }
 
+    /**
+     * 判断是否是皇家同花顺
+     * @param five
+     * @return
+     */
     private boolean isRoyalFlush(List<Card> five) {
         five.sort(Comparator.reverseOrder());
         if (isStraightFlush(five) && five.get(1).getNumber() == 13) {
