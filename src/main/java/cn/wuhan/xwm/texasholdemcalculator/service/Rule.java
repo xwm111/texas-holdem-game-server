@@ -1,12 +1,18 @@
 package cn.wuhan.xwm.texasholdemcalculator.service;
 
-import cn.wuhan.xwm.texasholdemcalculator.entity.Card;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-import java.util.*;
+import cn.wuhan.xwm.texasholdemcalculator.entity.Card;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * @author Wei Ming Xu  QQ:1274263 Just For Fun
  **/
+@Log4j2
 public class Rule {
     private static final int TYPE_ROYAL_FLUSH = 10;
     private static final int TYPE_STRAIGHT_FLUSH = 9;
@@ -779,7 +785,7 @@ public class Rule {
         Card[] cards = seven.toArray(new Card[seven.size()]);
         combinationSelectArrayList(cards, 0, new Card[5], 0);
         //2.然后对所有的组合进行排序，降序
-        Collections.sort(objlist, new Comparator<List<Card>>() {
+        Collections.sort(fiveCardsList, new Comparator<List<Card>>() {
             String result;
             @Override
             public int compare(List<Card> o1, List<Card> o2) {
@@ -792,24 +798,24 @@ public class Rule {
             }
         });
         //3.返回第一个，第一个是最大的
-        return objlist.get(0);
+        return fiveCardsList.get(0);
     }
 
     //用于从7张牌中找出5张最大的牌的临时变量
-    private List<List<Card>> objlist = new ArrayList<>();
+    private List<List<Card>> fiveCardsList = new ArrayList<>();
 
     private void combinationSelectArrayList(Card[] dataList, int dataIndex, Card[] resultList, int resultIndex) {
         int resultLen = resultList.length;
         int resultCount = resultIndex + 1;
         if (resultCount > resultLen) { // 全部选择完时，输出组合结果
-            //System.out.println(Arrays.asList(resultList));
+            log.info(Arrays.asList(resultList));
             List<Card> cards = new ArrayList<>();
             Card n;
             for (Card c : Arrays.asList(resultList)) {
                 n = new Card(c.getNumber(), c.getFlower());
                 cards.add(n);
             }
-            objlist.add(cards);
+            fiveCardsList.add(cards);
             return;
         }
 

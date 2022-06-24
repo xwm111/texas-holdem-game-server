@@ -893,7 +893,7 @@ public class TexasHoldemCalculatorApplicationTests {
     public void testPlay(){
         Round round = new Round();
         round.setplayersCount(4);
-        Map<String,List<Card>> map = round.preflop();
+        Map<String,List<Card>> map = round.preFlop();
 
         map.forEach((k,v) ->{
             log.info("hand:"+k);
@@ -926,7 +926,7 @@ public class TexasHoldemCalculatorApplicationTests {
         int n =5;
         Round round = new Round();
         round.setplayersCount(2);
-        round.preflop();
+        round.preFlop();
         round.flop();
         round.turn();
         round.river();
@@ -1011,9 +1011,9 @@ public class TexasHoldemCalculatorApplicationTests {
         ArrayList<Card> list = new ArrayList<>();
         Card card  = new Card(13, Flower.SPADE);
         list.add(card);
-        card  = new Card(12, Flower.HEART);
+        card  = new Card(2, Flower.HEART);
         list.add(card);
-        card  = new Card(8, Flower.CLUB);
+        card  = new Card(5, Flower.CLUB);
         list.add(card);
         card  = new Card(7, Flower.DIAMOND);
         list.add(card);
@@ -1021,7 +1021,7 @@ public class TexasHoldemCalculatorApplicationTests {
         list.add(card);
         card  = new Card(5, Flower.SPADE);
         list.add(card);
-        card  = new Card(2, Flower.SPADE);
+        card  = new Card(5, Flower.DIAMOND);
         list.add(card);
         Rule rule = new Rule();
         log.info(Arrays.asList(rule.findBiggestHandFromSevenCards(list)));

@@ -28,7 +28,7 @@ public class GameController {
             throw new Exception("玩家数量最多只允许9人");
         }
         round.setplayersCount(Integer.parseInt(persons));
-        return round.preflop();
+        return round.preFlop();
     }
 
     @GetMapping("/pre_flop")

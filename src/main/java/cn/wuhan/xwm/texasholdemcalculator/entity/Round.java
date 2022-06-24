@@ -11,7 +11,7 @@ public class Round {
 
     /**
      * 0 洗牌状态
-     * 1 preflop
+     * 1 preFlop
      * 2 flop
      * 3 turn
      * 4 river
@@ -104,7 +104,7 @@ public class Round {
         Collections.shuffle(poker);
     }
 
-    public Map<String, List<Card>> preflop() {
+    public Map<String, List<Card>> preFlop() {
         if(currentStep == 0) {
             currentStep = 1;
             int numberOfCards = playersCount * 2 + 1 + 3 + 1 + 1 + 1 + 1;
